@@ -1,3 +1,5 @@
+import random
+
 def selection_sort(arr):
     # loop through n-1 elements
     for i in range(0, len(arr) - 1):
@@ -55,14 +57,32 @@ def counting_sort(arr, maximum=None):
     for i in range(0, maximum + 1):
         counts.append(arr.count(i))
 
-    for j in range(1, len(counts)):
-        counts[j] = counts[j] + counts[j - 1]
+    for i in range(1, len(counts)):
+        counts[i] = counts[i] + counts[i - 1]
 
     counts = counts[:-1]
     counts.insert(0, 0)
 
-    return counts
+    new_arr = []
+    for i in counts:
+        if i + 1 is not i:
+            new_arr.append(counts.index(i) - 1)
+
+    max_ = max(arr)
+    new_arr.append(max_)
+
+    # A signifigant flaw with this solution is that it assumes
+    # each value occurs only once.
+    return list(dict.fromkeys(new_arr))[1:]
 
 
 if __name__ == "__main__":
-    print(counting_sort([1, 5, 8, 4, 2, 9, 6, 0, 3, 7]))
+    random.seed(84)
+    sample = random.sample(range(200), 50)
+    print(sample)
+    print("\n")
+    print(len(counting_sort(sample)))
+    print(counting_sort(sample))
+    print("\n")
+    print(len(sorted(sample)))
+    print(sorted(sample))
