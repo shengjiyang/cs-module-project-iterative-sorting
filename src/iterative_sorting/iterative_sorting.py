@@ -1,11 +1,8 @@
-import pandas as pd
-
 def selection_sort(arr):
     # loop through n-1 elements
     for i in range(0, len(arr) - 1):
         cur_index = i
         smallest_index = cur_index
-        # TO-DO: find next smallest element
         # (hint, can do in 3 loc)
         for j in range(cur_index + 1, len(arr)):
             if arr[j] < arr[smallest_index]:
@@ -50,6 +47,9 @@ def counting_sort(arr, maximum=None):
 
     if maximum == None:
         maximum = max(arr)
+
+    if any(n < 0 for n in arr) == True:
+        return "Error, negative numbers not allowed in Count Sort"
 
     counts = []
     for i in range(0, maximum + 1):
