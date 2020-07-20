@@ -45,6 +45,9 @@ buckets.
 What is the time and space complexity of the counting sort algorithm?
 '''
 def counting_sort(arr, maximum=None):
+    if len(arr) == 0:
+        return arr
+
     if maximum == None:
         maximum = max(arr)
 
@@ -52,23 +55,14 @@ def counting_sort(arr, maximum=None):
     for i in range(0, maximum + 1):
         counts.append(arr.count(i))
 
-    j = len(counts) - 1
-    while j >= 1:
-        counts[j] = counts[j] + counts[j -1]
-        j -= 1
+    for j in range(1, len(counts)):
+        counts[j] = counts[j] + counts[j - 1]
 
-    print(counts)
+    counts = counts[:-1]
+    counts.insert(0, 0)
+
+    return counts
 
 
 if __name__ == "__main__":
-    counting_sort([1, 5, 8, 4, 2, 9, 6, 0, 3, 7])
-
-    # Understanding reverse itteration
-
-    # wordList = ['hi', 'hello', 'this', 'that', 'is', 'of']
-
-    # i = len(wordList) - 1  
-
-    # while i >= 0:
-    #     print(wordList[i]) 
-    #     i -= 1
+    print(counting_sort([1, 5, 8, 4, 2, 9, 6, 0, 3, 7]))
