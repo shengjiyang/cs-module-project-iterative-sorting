@@ -1,24 +1,28 @@
-# TO-DO: Complete the selection_sort() function below
+import random
+
 def selection_sort(arr):
     # loop through n-1 elements
     for i in range(0, len(arr) - 1):
         cur_index = i
         smallest_index = cur_index
-        # TO-DO: find next smallest element
         # (hint, can do in 3 loc)
-        # Your code here
+        for j in range(cur_index + 1, len(arr)):
+            if arr[j] < arr[smallest_index]:
+                smallest_index = j
 
-
-        # TO-DO: swap
-        # Your code here
+        arr[smallest_index], arr[cur_index] = arr[cur_index], arr[smallest_index]
 
     return arr
 
 
-# TO-DO:  implement the Bubble Sort function below
 def bubble_sort(arr):
-    # Your code here
-
+    # i = cur_index, j = next_index
+    for i in range(len(arr) - 1):
+        # limits range to only two values at a time
+        for j in range(len(arr) - i - 1):
+            # compare cur_index and next_index values
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
 
     return arr
 
@@ -40,7 +44,45 @@ buckets.
 What is the time and space complexity of the counting sort algorithm?
 '''
 def counting_sort(arr, maximum=None):
-    # Your code here
+    if len(arr) == 0:
+        return arr
+
+    if maximum == None:
+        maximum = max(arr)
+
+    if any(n < 0 for n in arr) == True:
+        return "Error, negative numbers not allowed in Count Sort"
+
+    counts = []
+    for i in range(0, maximum + 1):
+        counts.append(arr.count(i))
+
+    for i in range(1, len(counts)):
+        counts[i] = counts[i] + counts[i - 1]
+
+    counts = counts[:-1]
+    counts.insert(0, 0)
+
+    new_arr = []
+    for i in counts:
+        if i + 1 is not i:
+            new_arr.append(counts.index(i) - 1)
+
+    max_ = max(arr)
+    new_arr.append(max_)
+
+    # A signifigant flaw with this solution is that it assumes
+    # each value occurs only once.
+    return list(dict.fromkeys(new_arr))[1:]
 
 
-    return arr
+if __name__ == "__main__":
+    random.seed(84)
+    sample = random.sample(range(200), 50)
+    print(sample)
+    print("\n")
+    print(len(counting_sort(sample)))
+    print(counting_sort(sample))
+    print("\n")
+    print(len(sorted(sample)))
+    print(sorted(sample))
